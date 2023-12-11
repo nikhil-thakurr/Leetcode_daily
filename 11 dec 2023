@@ -1,0 +1,69 @@
+Q-Link : https://leetcode.com/problems/element-appearing-more-than-25-in-sorted-array/description/?envType=daily-question&envId=2023-12-11
+
+
+Approach 1 : using unordered-map ( sc O(n) , tc O(n) )
+
+class Solution {
+public:
+    int findSpecialInteger(vector<int>& arr) {
+        unordered_map<int,int>mp;
+        for(auto& x:arr){
+            mp[x]++;
+            if(mp[x]>(arr.size()/4))return x;
+        }
+        return -1;
+    }
+};
+
+
+
+  *---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*
+
+
+Approach 2 : Take Advantage of being sorted ( sc O(1) , tc O(n) )
+
+
+class Solution {
+public:
+    int findSpecialInteger(vector<int>& arr) {
+        int n=arr.size();
+        int freq=n/4;
+        for(int i=0;i<n-freq;i++){
+            if(arr[i]==arr[i+freq])return arr[i];
+        }
+        return -1;
+    }
+};
+
+
+
+
+ *---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*
+
+
+ Approach 3 : Using Binary Search  ( sc O(1) , tc O(logn) )
+
+ class Solution {
+public:
+    int findSpecialInteger(vector<int>& arr) {
+        int n=arr.size();
+        int freq=n/4;
+        vector<int>candidates{arr[n/4],arr[n/2],arr[3*n/4]};
+
+        for(auto& x:candidates){
+            auto it1=lower_bound(arr.begin(),arr.end(),x);
+             auto it2=upper_bound(arr.begin(),arr.end(),x);
+
+             int val=it2-it1;
+             if(val>freq)return x;
+        }
+
+        return -1;
+    }
+};
+
+
+
+
+
+
