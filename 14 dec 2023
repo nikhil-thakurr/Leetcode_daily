@@ -1,0 +1,58 @@
+Q-Link : https://leetcode.com/problems/difference-between-ones-and-zeros-in-row-and-column/description/?envType=daily-question&envId=2023-12-14
+
+
+class Solution {
+public:
+    vector<vector<int>> onesMinusZeros(vector<vector<int>>& grid) {
+        
+        int n=grid.size();
+        int m=grid[0].size();
+        vector<vector<int>>ans(n,vector<int>(m,0));
+
+        vector<int>no_of_ones_row(n);
+        vector<int>no_of_ones_col(m);
+        vector<int>no_of_zeroes_row(n);
+        vector<int>no_of_zeroes_col(m);
+
+        cout<<"yes"<<endl;
+
+        for(int i=0;i<n;i++){
+            int cnt1=0;
+            int cnt0=0;
+            for(int j=0;j<m;j++){
+                if(grid[i][j]==1)cnt1++;
+                else cnt0++;
+            }
+            no_of_ones_row[i]=cnt1;
+            no_of_zeroes_row[i]=cnt0;
+        }   
+
+        for(int i=0;i<m;i++){
+            int cnt1=0;
+            int cnt0=0;
+            for(int j=0;j<n;j++){
+                if(grid[j][i]==1)cnt1++;
+                else cnt0++;
+            }
+            no_of_ones_col[i]=cnt1;
+            no_of_zeroes_col[i]=cnt0;
+
+        }
+
+
+        for(int i=0;i<n;i++){
+           
+            for(int j=0;j<m;j++){
+                
+                ans[i][j] = no_of_ones_row[i]+no_of_ones_col[j]
+                            -no_of_zeroes_row[i]-no_of_zeroes_col[j];
+
+            }
+           
+
+        }
+        
+        return ans;
+
+    }
+};
