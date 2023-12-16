@@ -1,0 +1,70 @@
+Q-Link : https://leetcode.com/problems/valid-anagram/description/?envType=daily-question&envId=2023-12-16
+
+Approach 1 : Sort 
+
+class Solution {
+public:
+    bool isAnagram(string s, string t) {
+        sort(s.begin(),s.end());
+        sort(t.begin(),t.end());
+
+        return s==t;
+    }
+};
+
+
+
+Approach 2 : using 2 maps
+
+class Solution {
+public:
+    bool isAnagram(string s, string t) {
+        if(s.length()!=t.length())return false;
+
+        unordered_map<char,int>mp1,mp2;
+
+        for(auto& x:s)mp1[x]++;
+        for(auto& x:t)mp2[x]++;
+
+        for(auto& x:mp1){
+            char ch=x.first;
+            int val=x.second;
+
+            if(mp2.find(ch)==mp2.end())return false;
+            if(mp2[ch]!=val)return false;
+        }
+
+        return true;
+    }
+};
+
+
+Approach 2 : using 1 map
+
+class Solution {
+public:
+    bool isAnagram(string s, string t) {
+        if(s.length()!=t.length())return false;
+
+        unordered_map<char,int>mp2;
+
+        
+        for(auto& x:t)mp2[x]++;
+
+        for(int i=0;i<s.length();i++){
+            char ch=s[i];
+            if(mp2.find(ch)==mp2.end())return false;
+            mp2[ch]--;
+            if(mp2[ch]==0)mp2.erase(ch);
+        }
+
+        return true;
+    }
+};
+
+
+
+
+
+
+
