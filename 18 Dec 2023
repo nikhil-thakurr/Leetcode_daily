@@ -1,0 +1,96 @@
+Q-Link : https://leetcode.com/problems/maximum-product-difference-between-two-pairs/description/?envType=daily-question&envId=2023-12-18
+
+Approach 1 : Sorting
+
+class Solution {
+public:
+    int maxProductDifference(vector<int>& nums) {
+        sort(nums.begin(),nums.end());
+
+        return (nums[nums.size()-1]*nums[nums.size()-2])-(nums[0]*nums[1]);
+    }
+};
+
+
+Approach 2 : using 2 for loops only 
+
+class Solution {
+public:
+    int maxProductDifference(vector<int>& nums) {
+        int mini=INT_MAX;
+        int sec_mini=INT_MAX;
+        int maxi=INT_MIN;
+        int sec_maxi=INT_MIN;
+
+        for(int i=0;i<nums.size();i++){
+            if(nums[i]>=maxi){
+                sec_maxi=maxi;
+                maxi=nums[i];
+            }
+            else if(nums[i]<maxi && nums[i]>sec_maxi){
+                sec_maxi=nums[i];
+            }
+
+
+        }
+        // cout<<maxi<<" "<<sec_maxi;
+
+         for(int i=0;i<nums.size();i++){
+            if(nums[i]<=mini){
+                sec_mini=mini;
+                mini=nums[i];
+            }
+            else if(nums[i]>mini && nums[i]<sec_mini){
+                sec_mini=nums[i];
+            }
+
+            
+        }
+
+        cout<<mini<<" "<<sec_mini;
+
+
+        return (maxi*sec_maxi)-(mini*sec_mini);
+    }
+};
+
+
+
+Approach 3 : single for loop
+
+class Solution {
+public:
+    int maxProductDifference(vector<int>& nums) {
+        int mini=INT_MAX;
+        int sec_mini=INT_MAX;
+        int maxi=INT_MIN;
+        int sec_maxi=INT_MIN;
+
+        for(int i=0;i<nums.size();i++){
+            if(nums[i]>=maxi){
+                sec_maxi=maxi;
+                maxi=nums[i];
+            }
+            else if(nums[i]<maxi && nums[i]>sec_maxi){
+                sec_maxi=nums[i];
+            }
+
+            if(nums[i]<=mini){
+                sec_mini=mini;
+                mini=nums[i];
+            }
+            else if(nums[i]>mini && nums[i]<sec_mini){
+                sec_mini=nums[i];
+            }
+
+
+        }
+       
+
+        cout<<mini<<" "<<sec_mini;
+
+
+        return (maxi*sec_maxi)-(mini*sec_mini);
+    }
+};
+
