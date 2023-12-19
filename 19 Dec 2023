@@ -1,0 +1,47 @@
+Q-Link : https://leetcode.com/problems/image-smoother/?envType=daily-question&envId=2023-12-19
+
+Approach 1 :
+
+class Solution {
+public:
+
+    int n;
+    int m;
+
+    int get_avg(int i,int j,vector<vector<int>>& img){
+
+        int sum=0;
+        int cnt=0;
+
+        for(int k=-1;k<=1;k++){
+            for(int l=-1;l<=1;l++){
+                int newr=i+k;
+                int newc=j+l;
+
+                if(newr>=0 && newr<n && newc>=0 &&newc<m){
+                    sum+=img[newr][newc];
+                    cnt++;
+                }
+            }
+        }   
+
+        return sum/cnt;
+
+    }    
+
+    vector<vector<int>> imageSmoother(vector<vector<int>>& img) {
+        n=img.size();
+        m=img[0].size();
+        vector<vector<int>>ans(n,vector<int>(m,0));
+
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                int val=get_avg(i,j,img);
+                ans[i][j]=val;
+            }
+        }
+
+        return ans;
+
+    }
+};
