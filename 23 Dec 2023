@@ -1,0 +1,29 @@
+ Q-Link : https://leetcode.com/problems/path-crossing/?envType=daily-question&envId=2023-12-23
+
+ class Solution {
+public:
+    bool isPathCrossing(string path) {
+        int first=0,second=0;
+
+        unordered_set<string>st;
+
+        string key= to_string(first)+ "_" + to_string(second); 
+
+        st.insert(key);
+
+        for(auto& x:path){
+            if(x=='N')first++;
+            else if(x=='S')first--;
+            else if(x=='E')second++;
+            else second--;
+
+             key= to_string(first)+ "_" + to_string(second);      
+
+            if(st.find(key)!=st.end())return true;
+
+            st.insert(key);
+        }
+
+        return false;
+    }
+};
