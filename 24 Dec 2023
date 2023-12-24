@@ -1,0 +1,78 @@
+Q -Link : https://leetcode.com/problems/minimum-changes-to-make-alternating-binary-string/submissions/1127568281/?envType=daily-question&envId=2023-12-24
+
+
+class Solution {
+public:
+    int minOperations(string s) {
+        int prev=1;
+        // cout<<prev<<" ";
+        int cnt=0;
+        if(s[0]=='0')cnt++;
+        
+
+
+        for(int i=1;i<s.length();i++){
+            if(s[i]==(prev+'0')){
+                cnt++;
+                prev ^= 1;
+            }
+            else{
+                prev=(s[i]-'0');
+            }
+            // cout<<prev<<" ";
+        }
+        prev=0;
+        // cout<<prev<<" ";
+        int cnt1=0;
+        if(s[0]=='1')cnt1++;
+
+        
+
+        for(int i=1;i<s.length();i++){
+             if(s[i]==(prev+'0')){
+                cnt1++;
+               prev ^= 1;
+            }
+            else{
+                prev=(s[i]-'0');
+            }
+        }
+
+        cout<<cnt<<" "<<cnt1;
+
+        return min(cnt,cnt1);
+    }
+};
+
+
+
+Approach 2 : (Better readibility)
+
+class Solution {
+public:
+    int minOperations(string s) {
+        int n = s.length();
+        int start_with_0 = 0;
+        int start_with_1 = 0;
+        
+        //010101
+        //101010
+        for(int i = 0; i<n; i++) {
+            if(i%2 == 0) {
+                if(s[i] == '0') {
+                    start_with_1++;
+                } else {
+                    start_with_0++;
+                }
+            } else {
+                if(s[i] == '1') {
+                    start_with_1++;
+                } else {
+                    start_with_0++;
+                }
+            }
+        }
+        
+        return min(start_with_0, start_with_1);
+    }
+};
