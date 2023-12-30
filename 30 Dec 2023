@@ -1,0 +1,75 @@
+Q-Link :https://leetcode.com/problems/redistribute-characters-to-make-all-strings-equal/?envType=daily-question&envId=2023-12-30
+
+Approach 1 : Map 
+
+class Solution {
+public:
+    bool makeEqual(vector<string>& words) {
+        unordered_map<char,int>mp;
+
+        for(auto x:words){
+            for(auto & z:x){
+                mp[z]++;
+            }
+        }
+
+        int n=words.size();
+
+        for(auto& x:mp){
+            cout<<x.second<<" ";
+            if(x.second%n!=0)return false;
+        }
+
+        return true;
+    }
+};
+
+
+Approach 2 : Array of size 26
+
+class Solution {
+public:
+    bool makeEqual(vector<string>& words) {
+        int arr[26]={0};
+
+        for(auto x:words){
+            for(auto & z:x){
+                arr[z-'a']++;
+            }
+        }
+
+        int n=words.size();
+
+        for(auto& x:arr){
+            // cout<<x.second<<" ";
+            if(x%n!=0)return false;
+        }
+
+        return true;
+    }
+};
+
+Approach 3 : using lamda
+
+class Solution {
+public:
+    bool makeEqual(vector<string>& words) {
+        int arr[26]={0};
+
+        for(auto x:words){
+            for(auto & z:x){
+                arr[z-'a']++;
+            }
+        }
+
+        int n=words.size();
+
+        //ye & is used to access n because it is defined lambda ke bahr
+
+        auto lamda=[&](int freq){
+            return freq%n==0;
+        };
+
+        return all_of(begin(arr),end(arr),lamda);
+    }
+};
