@@ -1,0 +1,29 @@
+Q-Link : https://leetcode.com/problems/assign-cookies/description/?envType=daily-question&envId=2024-01-01
+
+
+Approach 1 : 
+
+class Solution {
+public:
+    int findContentChildren(vector<int>& g, vector<int>& s) {
+        sort(begin(g),end(g));
+        sort(begin(s),end(s));
+
+        int j=0;
+        int len=s.size();
+        if(len==0)return 0;
+        int ans=0;
+
+        for(int i=0;i<g.size();){
+            if(g[i]<=s[j]){
+                ans++;
+                i++;
+                
+            }
+            j++;
+            if(j>=len)break;
+            
+        }
+        return ans;
+    }
+};
