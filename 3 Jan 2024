@@ -1,0 +1,68 @@
+Q-Link : https://leetcode.com/problems/number-of-laser-beams-in-a-bank/description/?envType=daily-question&envId=2024-01-03
+
+Approach 1 : Brute Force
+
+class Solution {
+public:
+    int numberOfBeams(vector<string>& bank) {
+        int cnt=0;
+
+        int n=bank.size();
+        int m=bank[0].length();
+
+        for(int i=0;i<n-1;i++){
+            int val=0;
+            for(int j=0;j<m;j++){
+                if(bank[i][j]=='1')val++;
+            }
+            int val2=0;
+            for(int k=i+1;k<n;k++){
+                for(int j=0;j<m;j++){
+                    if(bank[k][j]=='1')val2++;
+                }
+                if(val2>0)break;
+            }
+                cnt+=(val)*(val2);
+        }
+
+
+        return cnt;
+    }
+};
+
+Approach 2 : Using Storage
+class Solution {
+public:
+    int numberOfBeams(vector<string>& bank) {
+        int cnt=0;
+
+        int n=bank.size();
+        int m=bank[0].length();
+
+        vector<int>freq(n,0);
+
+        for(int i=0;i<n;i++){
+            int val=0;
+            for(int j=0;j<m;j++){
+                if(bank[i][j]=='1')val++;
+            }
+            freq[i]=val;
+        }
+
+        for(int i=0;i<n;i++){
+            int first=freq[i];
+            int second=0;
+            for(int j=i+1;j<n;j++){
+                if(freq[j]>0){
+                    second=freq[j];
+                    break;
+                }
+            }
+
+            cnt+=(first*second);
+        }
+
+
+        return cnt;
+    }
+};
