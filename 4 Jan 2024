@@ -1,0 +1,53 @@
+Q-Link : https://leetcode.com/problems/minimum-number-of-operations-to-make-array-empty/description/?envType=daily-question&envId=2024-01-04
+
+Approach : used maps an basic maths
+
+class Solution {
+public:
+    int minOperations(vector<int>& nums) {
+        unordered_map<int,int>mp;
+        int ans=0;
+        for(auto& x :nums){
+            mp[x]++;
+        }
+
+        for(auto& x:mp){
+            int freq=x.second;
+            if(freq==1)return -1;
+            if(freq%3==0){
+                ans+=freq/3;
+                continue;
+            }
+            while(freq%3!=0){
+                  ans++;
+                  freq-=2;  
+            }
+            ans+=freq/3;
+        }
+
+        return ans;
+    }
+};
+
+Approach 2 : Better reprentation
+
+class Solution {
+public:
+    int minOperations(vector<int>& nums) {
+        unordered_map<int,int>mp;
+        int ans=0;
+        for(auto& x :nums){
+            mp[x]++;
+        }
+
+        for(auto& x:mp){
+            int freq=x.second;
+            if(freq==1)return -1;
+            
+             ans+=ceil((double) freq/3);
+            
+        }
+
+        return ans;
+    }
+};
