@@ -1,0 +1,24 @@
+Q-Link : https://leetcode.com/problems/longest-increasing-subsequence/submissions/1137566054/?envType=daily-question&envId=2024-01-05
+
+Approach 1 : Memo
+
+class Solution {
+public:
+
+    int helper(vector<int>&nums,int idx,int prev,int n,  vector<vector<int>>&dp){
+        if(idx==n)return 0;
+        if(dp[idx][prev+1]!=-1)return dp[idx][prev+1];
+        int len=0+helper(nums,idx+1,prev,n,dp);
+    if(prev==-1 || nums[idx]>nums[prev]){
+        len=max(len,1+helper(nums,idx+1,idx,n,dp));
+    }
+
+    return dp[idx][prev+1]=len;
+    }
+
+    int lengthOfLIS(vector<int>& nums) {
+        int n=nums.size();
+        vector<vector<int>>dp(n,vector<int>(n+1,-1));
+        return helper(nums,0,-1,n,dp);
+    }
+};
