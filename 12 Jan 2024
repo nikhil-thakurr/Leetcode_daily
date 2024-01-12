@@ -1,0 +1,27 @@
+Q-Link  https://leetcode.com/problems/determine-if-string-halves-are-alike/description/?envType=daily-question&envId=2024-01-12
+
+class Solution {
+public:
+
+    bool isVowel(char ch){
+        if(ch=='a' || ch=='A'||ch=='u' || ch=='e'||ch=='E' || ch=='i'||ch=='I' || ch=='o'||ch=='O' || ch=='U')return true;
+
+        return false;
+    }
+
+    bool halvesAreAlike(string s) {
+        int n=s.length();
+        int i=0,j=n/2;
+
+        int cnt1=0;
+        int cnt2=0;
+
+        for(int i=0;i<n/2;){
+            if(isVowel(s[i++]))cnt1++;
+            if(isVowel(s[j++]))cnt2++;
+        }
+
+        return cnt1==cnt2;
+
+    }
+};
