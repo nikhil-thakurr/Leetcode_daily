@@ -1,0 +1,24 @@
+Q-Link : https://leetcode.com/problems/find-players-with-zero-or-one-losses/description/?envType=daily-question&envId=2024-01-15
+
+Approach : using map
+
+class Solution {
+public:
+    vector<vector<int>> findWinners(vector<vector<int>>& matches) {
+        map<int,int>mp;
+        vector<vector<int>>ans(2);
+
+        for(auto &x:matches){
+            if(mp.find(x[0])==mp.end())mp[x[0]]=0;
+            mp[x[1]]++;
+        }
+
+        for(auto & x:mp){
+            if(x.second==0)ans[0].push_back(x.first);
+            if(x.second==1)ans[1].push_back(x.first);
+        }
+
+        return ans;
+
+    }
+};
