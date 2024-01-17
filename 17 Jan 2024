@@ -1,0 +1,44 @@
+Q-Link  : https://leetcode.com/problems/unique-number-of-occurrences/submissions/1148910112/?envType=daily-question&envId=2024-01-17
+
+Approach 1 ; map + vector
+
+class Solution {
+public:
+    bool uniqueOccurrences(vector<int>& arr) {
+       unordered_map<int,int>mp;
+       vector<int>vec(1001,0);
+
+       for(auto& x:arr)mp[x]++;
+
+       for(auto& x:mp){
+           if(vec[x.second]==1)return false;
+           vec[x.second]=1;
+       }
+
+       return true;
+
+    }
+};
+
+
+Approach 2 : one single vector
+
+class Solution {
+public:
+    bool uniqueOccurrences(vector<int>& arr) {
+      vector<int>vec(2000,0);
+
+      for(auto& x:arr){
+          vec[x+1000]++;
+      }
+
+        sort(begin(vec),end(vec));
+
+        for(int i=0;i<vec.size()-1;i++){
+            if(vec[i]!=0 &&vec[i]==vec[i+1])return false;
+        }
+
+        return true;
+
+    }
+};
