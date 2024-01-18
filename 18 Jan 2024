@@ -1,0 +1,21 @@
+Q-Link : https://leetcode.com/problems/climbing-stairs/?envType=daily-question&envId=2024-01-18
+
+class Solution {
+public:
+
+    int helper(int n,vector<long long int>&dp){
+        if(n<=1)return 1;
+         if(dp[n]!=-1)return dp[n];
+        int one_step=helper(n-1,dp);
+        int two_step=helper(n-2,dp);
+
+        return dp[n]=one_step+two_step;
+
+    }
+
+    int climbStairs(int n) {
+        if(n==1 ||n==2)return n;
+         vector<long long int>dp(n+1,-1);
+        return helper(n,dp);
+    }
+};
