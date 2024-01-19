@@ -1,0 +1,46 @@
+Q-Link : https://leetcode.com/problems/minimum-falling-path-sum/submissions/1150859864/?envType=daily-question&envId=2024-01-19
+
+class Solution {
+public:
+    int helper2(vector<vector<int>>&matrix,int i,int j,vector<vector<int>>& dp){
+        int n=matrix.size();
+        int m=matrix[0].size();
+        if(i<0||j<0||i>=n||j>=m)return 1e9;
+        if(i==0)return matrix[0][j];
+        if(dp[i][j]!=-1)return dp[i][j];
+        int left=matrix[i][j]+helper2(matrix,i-1,j-1,dp);
+        int up=matrix[i][j]+helper2(matrix,i-1,j,dp);
+        int right=matrix[i][j]+helper2(matrix,i-1,j+1,dp);
+
+        return dp[i][j]=min(left,min(up,right));
+    }
+     int minFallingPathSum(vector<vector<int>>& matrix) {
+        int n=matrix.size();
+        int m=matrix[0].size();
+        int maxi=INT_MAX;
+        vector<vector<int>>dp(n+1,vector<int>(m+1,0));
+        
+        for(int j=0;j<m;j++)dp[0][j]=matrix[0][j];
+        for(int i=1;i<n;i++){
+            for(int j=0;j<m;j++){
+                int up=matrix[i][j]+dp[i-1][j];
+                int left=matrix[i][j];
+                if(j>=1)left+=dp[i-1][j-1];
+                else left+=1e9;
+                int right=matrix[i][j];
+                if(j<m-1)right+=dp[i-1][j+1];
+                else right+=1e9;
+
+             dp[i][j]=   min(left,min(up,right));
+            }
+        }
+
+ for(int j=0;j<m;j++){
+            int ans=dp[n-1][j];
+
+            maxi=min(maxi,ans);
+        }
+
+        return maxi;
+    }
+};
