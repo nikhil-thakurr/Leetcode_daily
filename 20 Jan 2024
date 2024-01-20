@@ -1,0 +1,60 @@
+Q-Link : https://leetcode.com/problems/sum-of-subarray-minimums/?envType=daily-question&envId=2024-01-20
+class Solution {
+public:
+    int n;
+    int M=1e9 + 7;
+
+    void ngl(vector<long long>&left,vector<int>&arr){
+        stack<long long>st;
+
+        for(int i=0;i<n;i++){
+            
+                while(!st.empty() && arr[st.top()]>=arr[i]){
+                    st.pop();
+                }
+               (st.empty())?left[i]=-1:left[i]=st.top();  
+
+            // cout<<st.top()<<" ";
+
+            st.push(i);
+
+        }
+    }
+
+    void ngr(vector<long long>&right,vector<int>&arr){
+        stack<long long>st;
+
+        for(int i=n-1;i>=0;i--){
+            
+                while(!st.empty() && arr[st.top()]>arr[i]){
+                    st.pop();
+                }
+            (st.empty())?right[i]=n:right[i]=st.top();  
+            st.push(i);
+
+        }
+    }
+
+    int sumSubarrayMins(vector<int>& arr) {
+        n=arr.size();
+
+        long long ans=0;
+
+        vector<long long>left(n);
+        vector<long long>right(n);
+
+        ngl(left,arr);
+        ngr(right,arr);
+        // cout<<"Hey"<<" ";
+
+        for(int i=0;i<n;i++){
+            long long lval=i-left[i];
+            long long rval=right[i]-i;
+
+            ans=(ans+lval*rval*arr[i])%M;
+        }
+
+        return ans;
+
+    }
+};
