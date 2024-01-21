@@ -1,0 +1,23 @@
+Q-Link : https://leetcode.com/problems/house-robber/?envType=daily-question&envId=2024-01-21
+
+class Solution {
+public:
+
+    int helper(vector<int>&nums,int idx,vector<int>&dp){
+        if(idx==0)return nums[idx];
+        if(idx<0)return 0;
+        if(dp[idx]!=-1)return dp[idx];
+        int take=INT_MIN;
+        if(idx>=1)take=nums[idx]+helper(nums,idx-2,dp);
+
+        int non_take=helper(nums,idx-1,dp);
+
+        return dp[idx]=max(take,non_take);
+    }
+
+    int rob(vector<int>& nums) {
+        int n=nums.size();
+        vector<int>dp(n,-1);
+    return helper(nums,n-1,dp);
+    }
+};
