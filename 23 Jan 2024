@@ -1,0 +1,93 @@
+Q-Link : https://leetcode.com/problems/maximum-length-of-a-concatenated-string-with-unique-characters/description/?envType=daily-question&envId=2024-01-23
+
+Approach 1 : Recursion 
+
+class Solution {
+public:
+
+    bool hasDuplicate(string &s1,string &s2){
+        unordered_map<int,int>mp;
+
+        for(auto& x:s1){
+            if(mp.find(x)!=mp.end())return true;
+            mp[x]++;
+        }
+        for(auto& x:s2){
+            if(mp[x]>=1)return true;
+        }
+        return false;
+    }
+
+    int helper(vector<string>&arr,string temp,int idx,int n){
+        if(idx>=n)return temp.size();
+
+        int include=0;
+        int exclude=0;
+
+        if(hasDuplicate(arr[idx],temp)){
+                exclude=helper(arr,temp,idx+1,n);
+        }
+        else{
+             exclude=helper(arr,temp,idx+1,n);
+             include=helper(arr,temp+arr[idx],idx+1,n);
+        }
+
+        return max(exclude,include);
+    }
+
+    int maxLength(vector<string>& arr) {
+        string temp="";
+        int n=arr.size();
+        int idx=0;
+
+        return helper(arr,temp,idx,n);
+    }
+};
+
+
+Approach 2 : Memoization
+
+class Solution {
+public:
+
+    bool hasDuplicate(string &s1,string &s2){
+        unordered_map<int,int>mp;
+
+        for(auto& x:s1){
+            if(mp.find(x)!=mp.end())return true;
+            mp[x]++;
+        }
+        for(auto& x:s2){
+            if(mp[x]>=1)return true;
+        }
+        return false;
+    }
+
+    int helper(vector<string>&arr,string temp,int idx,int n,unordered_map<string,int>&mp){
+        if(idx>=n)return temp.size();
+
+        int include=0;
+        int exclude=0;
+
+        if(mp.find(temp)!=mp.end())return mp[temp];
+
+        if(hasDuplicate(arr[idx],temp)){
+                exclude=helper(arr,temp,idx+1,n,mp);
+        }
+        else{
+             exclude=helper(arr,temp,idx+1,n,mp);
+             include=helper(arr,temp+arr[idx],idx+1,n,mp);
+        }
+
+        return mp[temp]=max(exclude,include);
+    }
+
+    int maxLength(vector<string>& arr) {
+        string temp="";
+        int n=arr.size();
+        int idx=0;
+        unordered_map<string,int>mp;
+
+        return helper(arr,temp,idx,n,mp);
+    }
+};
