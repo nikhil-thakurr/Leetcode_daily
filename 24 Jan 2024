@@ -1,0 +1,89 @@
+Q-Link : https://leetcode.com/problems/pseudo-palindromic-paths-in-a-binary-tree/submissions/1037594374/?envType=daily-question&envId=2024-01-24
+
+Approach 1 : Brute Force
+
+
+class Solution {
+public:
+
+    int ans=0;
+
+    bool check(vector<int>&vec){
+        int n=vec.size();
+        unordered_map<int,int>mp;
+        for(auto& x:vec)mp[x]++;
+        bool flag=false;
+        if(n%2==1){
+            for(auto & x:mp){
+                if(x.second%2==1 &&flag==true)return false;
+                else if(x.second%2==1)flag=true;
+
+            }
+        }else{
+            for(auto & x:mp){
+                if(x.second%2==1 )return false;
+                
+            }
+        }
+        return true;
+    }
+
+    void helper(TreeNode* node,vector<int>&vec){
+        if(node==NULL)return ;
+        vec.push_back(node->val);
+        if(node->left==NULL && node->right==NULL){
+            if(check(vec))ans++;
+            vec.pop_back();
+            return;
+        }
+        
+        helper(node->left,vec);
+        helper(node->right,vec);
+        vec.pop_back();
+    }
+
+    int pseudoPalindromicPaths (TreeNode* root) {
+        vector<int>vec;
+
+        helper(root,vec);
+        return ans;
+    }
+};
+
+
+Approach 2 : Optimal 
+
+
+class Solution {
+public:
+
+    int ans=0;
+
+    void helper(TreeNode* node, vector<int>&arr){
+        if(node==NULL)return ;
+       
+        arr[node->val]++;
+        if(node->left==NULL && node->right==NULL){
+            int cnt=0;
+            for(auto & x:arr){
+                if(x%2==1)cnt++;
+            }
+            if(cnt<=1)ans++;
+          
+            arr[node->val]--;
+            return;
+        }
+        
+        helper(node->left,arr);
+        helper(node->right,arr);
+        
+        arr[node->val]--;
+    }
+
+    int pseudoPalindromicPaths (TreeNode* root) {
+        
+        vector<int>arr(10,0);
+        helper(root,arr);
+        return ans;
+    }
+};
