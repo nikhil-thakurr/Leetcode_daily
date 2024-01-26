@@ -1,0 +1,57 @@
+Q-Link : https://leetcode.com/problems/out-of-boundary-paths/description/?envType=daily-question&envId=2024-01-26
+
+Approach 1 : recursion
+
+class Solution {
+public:
+
+int M=1e9+7;
+
+    int helper(int m, int n, int mm, int sr, int sc){
+         if(sr<0 ||sc<0 ||sr>=m|| sc>=n){
+             if(mm>=0)return 1;
+             return 0;
+         }
+         int up=0,down=0,left=0,right=0;
+         if(mm>0)  left=helper(m,n,mm-1,sr,sc-1);
+         if(mm>0) right=helper(m,n,mm-1,sr,sc+1);
+         if(mm>0) up=helper(m,n,mm-1,sr-1,sc);
+         if(mm>0) down=helper(m,n,mm-1,sr+1,sc);
+
+        return (left+up+down+right)%M;
+
+    }
+
+    int findPaths(int m, int n, int mm, int sr, int sc) {
+        return helper(m,n,mm,sr,sc);
+    }
+};
+
+Approach 2 : Memo
+
+class Solution {
+public:
+
+int M=1e9+7;
+
+    int helper(int m, int n, int mm, int sr, int sc, vector<vector<vector<int>>>&dp){
+         if(sr<0 ||sc<0 ||sr>=m|| sc>=n){
+             if(mm>=0)return 1;
+             return 0;
+         }
+         if(dp[sr][sc][mm]!=-1)return dp[sr][sc][mm];
+         int up=0,down=0,left=0,right=0;
+         if(mm>0)  left=helper(m,n,mm-1,sr,sc-1,dp);
+         if(mm>0) right=helper(m,n,mm-1,sr,sc+1,dp);
+         if(mm>0) up=helper(m,n,mm-1,sr-1,sc,dp);
+         if(mm>0) down=helper(m,n,mm-1,sr+1,sc,dp);
+
+        return dp[sr][sc][mm]= ((up+down)%M + (left+right)%M)%M;
+
+    }
+
+    int findPaths(int m, int n, int mm, int sr, int sc) {
+        vector<vector<vector<int>>>dp(m+1,vector<vector<int>>(n+1,vector<int>(mm+1,-1)));
+        return helper(m,n,mm,sr,sc,dp);
+    }
+};
