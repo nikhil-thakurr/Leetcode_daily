@@ -1,0 +1,74 @@
+Q-Link : https://leetcode.com/problems/evaluate-reverse-polish-notation/description/?envType=daily-question&envId=2024-01-30
+
+Approach 1 : Using stack 
+
+class Solution {
+public:
+    int evalRPN(vector<string>& tokens) {
+        stack<int>st;
+
+        for(int i=0;i<tokens.size();i++){
+            if(tokens[i]=="+" ||tokens[i]=="-" ||tokens[i]=="*"||tokens[i]=="/"){
+                
+                int first=st.top();
+                st.pop();
+                int second=st.top();
+                st.pop();
+                if(tokens[i]=="+"){
+                    int ans=first+second;
+                    st.push(ans);
+                }
+                 if(tokens[i]=="-"){
+                    int ans=second-first;
+                    st.push(ans);
+                }
+                 if(tokens[i]=="*"){
+                    int ans=first*second;
+                    st.push(ans);
+                }
+                 if(tokens[i]=="/"){
+                    int ans=second/first;
+                    st.push(ans);
+                }
+
+            }else{
+                st.push(stoi(tokens[i]));
+            }
+        }
+        return st.top();
+    }
+};
+
+Approach 2 : Using Stack + Map + Lambda
+
+class Solution {
+public:
+    int evalRPN(vector<string>& tokens) {
+        stack<int>st;
+        unordered_map<string,function<int(int,int)>> mp={
+            {"+",[](int first ,int second){return first+second ;}},
+            {"-",[](int first ,int second){return second-first ;}},
+            {"*",[](int first ,int second){return first*second ;}},
+            {"/",[](int first ,int second){return second/first ;}}
+
+        };
+
+        for(int i=0;i<tokens.size();i++){
+            if(tokens[i]=="+" ||tokens[i]=="-" ||tokens[i]=="*"||tokens[i]=="/"){
+                
+                int first=st.top();
+                st.pop();
+                int second=st.top();
+                st.pop();
+                
+                int result =mp[tokens[i]](first,second);
+
+                st.push(result);
+
+            }else{
+                st.push(stoi(tokens[i]));
+            }
+        }
+        return st.top();
+    }
+};
