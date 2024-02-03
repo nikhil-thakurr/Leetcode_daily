@@ -1,0 +1,68 @@
+Q-Link : https://leetcode.com/problems/partition-array-for-maximum-sum/description/?envType=daily-question&envId=2024-02-03
+
+
+Approach 1 : Recursion
+
+class Solution {
+public:
+
+   
+
+    int helper(vector<int>& arr, int k,int idx,int n){
+        if(idx>=n)return 0;
+
+        int result=0;
+        int maxi=-1;
+
+        
+            for(int j=idx;j<n && j-idx+1<=k;j++){
+                 maxi=max(maxi,arr[j]);
+
+                result=max(result,(j-idx+1)*maxi+ helper(arr,k,j+1,n));
+            }
+           
+        
+
+        return result;
+    }
+
+    int maxSumAfterPartitioning(vector<int>& arr, int k) {
+        int n=arr.size();
+        // int idx=0;
+        return helper(arr,k,0,n);
+    }
+};
+
+
+Approach 2 : Memo
+
+class Solution {
+public:
+
+   
+
+    int helper(vector<int>& arr, int k,int idx,int n,vector<int>&dp){
+        if(idx>=n)return 0;
+
+        int result=0;
+        int maxi=-1;
+        if(dp[idx]!=-1)return dp[idx];
+        
+            for(int j=idx;j<n && j-idx+1<=k;j++){
+                 maxi=max(maxi,arr[j]);
+
+                result=max(result,(j-idx+1)*maxi+ helper(arr,k,j+1,n,dp));
+            }
+           
+        
+
+        return dp[idx]=result;
+    }
+
+    int maxSumAfterPartitioning(vector<int>& arr, int k) {
+        int n=arr.size();
+        // int idx=0;
+        vector<int>dp(n+1,-1);
+        return helper(arr,k,0,n,dp);
+    }
+};
