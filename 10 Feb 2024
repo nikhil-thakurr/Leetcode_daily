@@ -1,0 +1,63 @@
+Q-Link : https://leetcode.com/problems/palindromic-substrings/?envType=daily-question&envId=2024-02-10
+
+Approach 1 : Brute
+
+class Solution {
+public:
+
+    bool check(string & s,int i ,int j){
+        if(i>j)return true;
+
+        if(s[i]==s[j]){
+            return check(s,i+1,j-1);
+        }
+
+        return false;
+    }
+
+    int countSubstrings(string s) {
+
+        int ans=0;
+
+        for(int i=0;i<s.length();i++){
+            for(int j=i;j<s.length();j++){
+                if(check(s,i,j))ans++;
+            }
+        }
+
+        return ans;
+    }
+};
+
+Approach2 : Brute with Memo
+
+class Solution {
+public:
+
+    bool check(string & s,int i ,int j, vector<vector<int>>&dp){
+        if(i>j)return true;
+
+        if(dp[i][j]!=-1)return dp[i][j];
+
+        if(s[i]==s[j]){
+            return dp[i][j]=check(s,i+1,j-1,dp);
+        }
+
+        return dp[i][j]=false;
+    }
+
+    int countSubstrings(string s) {
+
+        int ans=0;
+        
+        vector<vector<int>>dp(1001,vector<int>(1001,-1));
+
+        for(int i=0;i<s.length();i++){
+            for(int j=i;j<s.length();j++){
+                if(check(s,i,j,dp))ans++;
+            }
+        }
+
+        return ans;
+    }
+};
