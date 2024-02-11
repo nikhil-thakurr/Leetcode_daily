@@ -1,0 +1,44 @@
+Q-Link : https://leetcode.com/problems/cherry-pickup-ii/description/?envType=daily-question&envId=2024-02-11
+
+Approach 1 : Memo
+
+class Solution {
+public:
+
+    int helper(vector<vector<int>>& grid,int row,int col1,int col2,vector<vector<vector<int>>>&dp){
+
+        int n=grid.size();
+        int m=grid[0].size();
+
+        if(row>=n || col1<0 ||col2<0 ||col1>=m || col2>=m){
+            return INT_MIN;
+        }
+
+        if(row==n-1){
+            if(col1==col2)return grid[row][col1];
+            return grid[row][col1]+grid[row][col2];
+        }
+        if(dp[row][col1][col2]!=-1)return dp[row][col1][col2];
+        int val=0;
+        int maxVal=0;
+
+        for(int i=-1;i<=1;i++){
+            for(int j=-1;j<=1;j++){
+               if(col1==col2) val=grid[row][col1]+helper(grid,row+1,col1+i,col2+j,dp);
+               else val=grid[row][col1]+grid[row][col2]+helper(grid,row+1,col1+i,col2+j,dp);
+
+               maxVal=max(maxVal,val);
+            }
+        }
+
+        return dp[row][col1][col2]= maxVal;
+    }
+
+    int cherryPickup(vector<vector<int>>& grid) {
+         int n=grid.size();
+        int m=grid[0].size();
+
+        vector<vector<vector<int>>>dp(n,vector<vector<int>>(m+1,vector<int>(m+1,-1)));
+        return helper(grid,0,0,grid[0].size()-1,dp);
+    }
+};
