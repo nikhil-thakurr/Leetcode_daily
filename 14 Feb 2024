@@ -1,0 +1,32 @@
+Q-Link : https://leetcode.com/problems/longest-common-subsequence/description/
+
+class Solution {
+public:
+    vector<int> rearrangeArray(vector<int>& nums) {
+        bool signIsPositive=true;
+         vector<int>ans;
+         int i=0,j=0;
+
+            while(ans.size()<nums.size() ){
+                if(signIsPositive){
+                    if(nums[i]>=0){
+                        ans.push_back(nums[i]);
+                        signIsPositive=false;
+                        
+                    }
+                    i++;
+                }
+                else{
+                     if(nums[j]<0){
+                        ans.push_back(nums[j]);
+                        signIsPositive=true;;
+                        
+                    }
+                    j++;
+                }
+            }
+
+         return ans;
+
+    }
+};
