@@ -1,0 +1,24 @@
+Q-Link : https://leetcode.com/problems/find-polygon-with-the-largest-perimeter/description/?envType=daily-question&envId=2024-02-15
+
+class Solution {
+public:
+    long long largestPerimeter(vector<int>& nums) {
+        sort(nums.begin(),nums.end());
+        long long sum=0;
+        for(auto& x :nums)sum+=x;
+
+        for(int i=nums.size()-1;i>=2;){
+            if(i>=2){
+                if(nums[i]<(sum-nums[i])){
+                    return sum;
+                }
+                 else{
+                sum-=nums[i];
+                i--;
+            }
+            }
+           
+        }
+        return -1;
+    }
+};
