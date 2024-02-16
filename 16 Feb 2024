@@ -1,0 +1,32 @@
+Q-Link : https://leetcode.com/problems/least-number-of-unique-integers-after-k-removals/description/?envType=daily-question&envId=2024-02-16
+
+class Solution {
+public:
+    int findLeastNumOfUniqueInts(vector<int>& arr, int k) {
+
+        unordered_map<int,int>mp;
+
+        for(auto& x:arr)mp[x]++;
+
+        vector<int>vec;
+
+        for(auto&x:mp)vec.push_back(x.second);
+
+        sort(vec.begin(),vec.end());
+        int i;
+        for(i=0;i<vec.size();i++){
+            while(vec[i]>0){
+                // cout<<vec[i]<<" ";
+                vec[i]--;
+                k--;
+                // cout<<k <<" ";
+                if(k<0)return vec.size()-i;
+            }
+        }
+       
+
+        return 0;
+
+    }
+
+};
