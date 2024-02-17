@@ -1,0 +1,106 @@
+Q-Link : https://leetcode.com/problems/furthest-building-you-can-reach/?envType=daily-question&envId=2024-02-17
+
+Approach 1 : Recursion
+
+class Solution {
+public:
+
+    int helper(vector<int>& heights, int bricks, int ladders,int idx){
+        if(bricks==0 && ladders==0 &&heights[idx+1]>heights[idx] )return idx;
+        if(idx==heights.size()-1)return idx;
+        if(bricks<(heights[idx+1]-heights[idx]) && ladders==0)return idx;
+
+        int br=0;
+        int lad=0;
+
+        if(heights[idx+1]<=heights[idx]){
+         return helper(heights,bricks,ladders,idx+1);
+        }
+        else{
+            if(bricks>=(heights[idx+1]-heights[idx]))br=helper(heights,bricks-(heights[idx+1]-heights[idx]),ladders,idx+1);
+            if(ladders>=1) lad=helper(heights,bricks,ladders-1,idx+1);
+        }
+        return max(br,lad);
+
+    }
+
+    int furthestBuilding(vector<int>& heights, int bricks, int ladders) {
+        
+
+        return helper(heights,bricks,ladders,0);
+
+    }
+};
+
+Approach 2 : Memo
+
+class Solution {
+public:
+
+    int helper(vector<int>& heights, int bricks, int ladders,int idx,  vector<vector<vector<int>>>&dp){
+        if(bricks==0 && ladders==0 &&heights[idx+1]>heights[idx] )return idx;
+        if(idx==heights.size()-1)return idx;
+        if(bricks<(heights[idx+1]-heights[idx]) && ladders==0)return idx;
+
+        if(dp[idx][bricks][ladders]!=-1)return dp[idx][bricks][ladders];
+
+        int br=0;
+        int lad=0;
+
+        if(heights[idx+1]<=heights[idx]){
+         return dp[idx][bricks][ladders]=helper(heights,bricks,ladders,idx+1,dp);
+        }
+        else{
+            if(bricks>=(heights[idx+1]-heights[idx]))br=helper(heights,bricks-(heights[idx+1]-heights[idx]),ladders,idx+1,dp);
+            if(ladders>=1) lad=helper(heights,bricks,ladders-1,idx+1,dp);
+        }
+        return dp[idx][bricks][ladders]= max(br,lad);
+
+    }
+
+    int furthestBuilding(vector<int>& heights, int bricks, int ladders) {
+        
+        vector<vector<vector<int>>>dp(heights.size()+1,vector<vector<int>>(bricks+1,vector<int>(ladders+1,-1)));
+        return helper(heights,bricks,ladders,0,dp);
+
+    }
+};
+
+Approach 3 : Using PQ
+
+class Solution {
+public:
+    int furthestBuilding(vector<int>& heights, int bricks, int ladders) {
+        priority_queue<int>pq;
+
+        int idx=0;
+
+        for(idx;idx<heights.size()-1;idx++){
+            if(heights[idx+1]<heights[idx])continue;
+            if(ladders==0 &&bricks<heights[idx+1]-heights[idx])return idx;
+            if(bricks>=heights[idx+1]-heights[idx]){
+                pq.push((heights[idx+1]-heights[idx]));
+                bricks-=(heights[idx+1]-heights[idx]);
+            }
+            else{
+                if(ladders){
+                    int top=INT_MIN;
+                   if(!pq.empty())  top=pq.top();
+                   
+                    int diff=heights[idx+1]-heights[idx];
+                    if(top>=diff){
+                        
+                        bricks+=top;
+                        bricks-=diff;
+                        pq.pop();
+                        pq.push(diff);
+
+                    }
+                        ladders--;
+                        }
+            }
+        }
+
+        return idx;
+    }
+};
