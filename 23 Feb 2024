@@ -1,0 +1,36 @@
+Q-Link : https://leetcode.com/problems/cheapest-flights-within-k-stops/description/?envType=daily-question&envId=Invalid%20Date
+
+
+  class Solution {
+public:
+    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
+           vector<pair<int,int>>adj[n];
+        for(auto it:flights){
+            adj[it[0]].push_back({it[1],it[2]});
+        }
+        // steps  node dist
+        queue<pair<int,pair<int,int>>>q;
+        q.push({0,{src,0}});
+        
+        vector<int>dis(n,1e9);
+        dis[src]=0;
+        while(!q.empty()){
+            int step=q.front().first;
+            int node=q.front().second.first;
+            int cost=q.front().second.second;
+            q.pop();
+            if(step>k)continue;
+            for(auto it:adj[node]){
+                int adjnode=it.first;
+                int wt=it.second;
+                if(cost+wt<dis[adjnode]&&step<=k){
+                    dis[adjnode]=cost+wt;
+                    q.push({step+1,{adjnode,cost+wt}});
+                }
+            }
+        }
+        
+        if(dis[dst]==1e9)return -1;
+        return dis[dst];
+    }
+};
