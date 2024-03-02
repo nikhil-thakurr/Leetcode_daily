@@ -1,0 +1,30 @@
+Q-Link : https://leetcode.com/problems/squares-of-a-sorted-array/description/?envType=daily-question&envId=2024-03-02
+
+Approach 1 : sorting
+
+class Solution {
+public:
+    vector<int> sortedSquares(vector<int>& nums) {
+        for(int i=0;i<nums.size();i++){
+            nums[i]=nums[i]*nums[i];
+        }
+
+        sort(begin(nums),end(nums));
+
+        return nums;
+    }
+}; 
+
+Approach 2 : Two Pointers
+class Solution {
+public:
+    vector<int> sortedSquares(vector<int>& A) {
+        vector<int> res(A.size());
+        int l = 0, r = A.size() - 1;
+        for (int k = A.size() - 1; k >= 0; k--) {
+            if (abs(A[r]) > abs(A[l])) res[k] = A[r] * A[r--];
+            else res[k] = A[l] * A[l++];
+        }
+        return res;
+    }
+};
