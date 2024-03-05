@@ -1,0 +1,26 @@
+Q-Link : https://leetcode.com/problems/minimum-length-of-string-after-deleting-similar-ends/description/?envType=daily-question&envId=2024-03-05
+
+class Solution {
+public:
+    int minimumLength(string s) {
+        int n=s.length();
+        int i=0,j=n-1;
+
+        while(i<j && s[i]==s[j]){
+          char a=s[i];
+          char b=s[j];
+
+          
+
+          while(i<j &&s[i]==a ){
+              i++;
+          }  
+          while(j>=i&& s[j]==a){
+              j--;
+          }
+
+           }
+
+        return j-i+1;
+    }
+};
