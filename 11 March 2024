@@ -1,0 +1,53 @@
+Q-Link : https://leetcode.com/problems/custom-sort-string/description/?envType=daily-question&envId=2024-03-11
+
+Approach 1 : Map
+
+class Solution {
+public:
+
+
+    string customSortString(string order, string s) {
+        unordered_map<char,int>mp;
+        string ans="";
+        for(int i=0;i<s.size();i++){
+            mp[s[i]]++;
+        }
+
+        for(int i=0;i<order.size();i++){
+            if(mp.find(order[i])!=mp.end()){
+                int num=mp[order[i]];
+                while(num--)ans+=order[i];
+                mp.erase(order[i]);
+            }
+            
+        }
+
+        for(auto & x:mp){
+             int num=x.second;
+             while(num--)ans+=x.first;
+        }
+
+        return ans;
+
+    }
+};
+
+Approach 2 : Comparator
+
+class Solution {
+public:
+
+
+    string customSortString(string order, string s) {
+        unordered_map<char,int>mp;
+        for(int i=0;i<order.size();i++){
+            mp[order[i]]=i;
+        }
+   auto cmp=[&mp](char& a,char& b){
+        return mp[a]<mp[b];
+    };
+
+        sort(begin(s),end(s),cmp);
+        return s;
+    }
+};
