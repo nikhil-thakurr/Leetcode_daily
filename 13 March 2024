@@ -1,0 +1,32 @@
+Q-Link : https://leetcode.com/problems/find-the-pivot-integer/description/?envType=daily-question&envId=2024-03-13
+
+Approach 1 : Formula
+
+class Solution {
+public:
+    int pivotInteger(int n) {
+        int total=(n*(n+1)/2);
+        for(int i=1;i<=n;i++){
+            if(i*i==total)return i;
+        }
+
+        return -1;
+    }
+};
+
+Approach 2 : Sum
+
+class Solution {
+public:
+    int pivotInteger(int n) {
+        int total=(n*(n+1)/2);
+        for(int i=1;i<=n;i++){
+            int sum1=(i*(i+1)/2);
+            int sum2=total-sum1+i;
+
+            if(sum1==sum2)return i;
+        }
+
+        return -1;
+    }
+};
