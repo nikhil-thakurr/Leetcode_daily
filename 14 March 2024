@@ -1,0 +1,55 @@
+Q-Link : https://leetcode.com/problems/binary-subarrays-with-sum/description/
+
+Approach 1 : Prefix 
+
+class Solution {
+public:
+    int numSubarraysWithSum(vector<int>& nums, int goal) {
+        vector<int>prefix(nums.size(),0);
+        int sum=0;
+
+        for(int i=0;i<nums.size();i++){
+            sum+=nums[i];
+            prefix[i]=sum;
+        }
+
+        int ans=0;
+
+        for(int i =0;i<prefix.size();i++){
+            
+             if(prefix[i]>=goal){
+               if(prefix[i]==goal) ans++;
+                int j=0;
+                while(j<i){
+                    int val=prefix[i]-prefix[j];
+                    if(val==goal)ans++;
+                    j++;
+                }
+            }
+
+        }
+        return ans;
+    }
+};
+
+Approach 2 : Map
+
+class Solution {
+public:
+    int numSubarraysWithSum(vector<int>& nums, int goal) {
+        unordered_map<int,int>mp;
+        mp[0]=1;
+        int sum=0;
+        int ans=0;
+
+        for(int i=0;i<nums.size();i++){
+            sum+=nums[i];
+            if(mp.find(sum-goal)!=mp.end()){
+                ans+=mp[sum-goal];
+            }
+            
+            mp[sum]++;
+        }
+        return ans;
+    }
+};
