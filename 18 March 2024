@@ -1,0 +1,27 @@
+Q-LInk : https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/?envType=daily-question&envId=2024-03-18
+
+class Solution {
+public:
+    int findMinArrowShots(vector<vector<int>>& points) {
+        if(points.size()==1)return 1;
+        int cnt=1;
+        sort(points.begin(),points.end());
+        
+        int prevS=points[0][0];
+        int prevE=points[0][1];
+
+        for(int i=1;i<points.size();i++){
+            if(points[i][0]>prevE){
+                cnt++;
+                prevS=points[i][0];
+                prevE=points[i][1];
+
+            }
+            else{
+                prevS=max(prevS,points[i][0]);
+                prevE=min(prevE,points[i][1]);
+            }
+        }
+        return cnt;
+    }
+};
