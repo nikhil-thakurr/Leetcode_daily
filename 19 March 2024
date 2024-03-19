@@ -1,0 +1,31 @@
+Q-Link : https://leetcode.com/problems/task-scheduler/?envType=daily-question&envId=2024-03-19
+
+class Solution {
+public:
+    int leastInterval(vector<char>& tasks, int n) {
+        unordered_map<char,int>mp;
+        for(auto& x :tasks)mp[x]++;
+        priority_queue<int>pq;
+        for(auto& x :mp)pq.push(x.second);
+
+        int ans=0;
+
+        while(!pq.empty()){
+            vector<int>vec;
+            for(int i=1;i<=n+1;i++){
+                if(!pq.empty()){
+                    int freq=pq.top();
+                    freq--;
+                    pq.pop();
+                    vec.push_back(freq);
+                }
+            }
+            for(auto& x :vec)if(x>0)pq.push(x);
+
+            if(pq.empty())ans+=vec.size();
+            else ans+=n+1;
+        }
+
+        return ans;
+    }
+};
