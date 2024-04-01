@@ -1,0 +1,22 @@
+Q-Link : https://leetcode.com/problems/length-of-last-word/description/?envType=daily-question&envId=2024-04-01
+
+class Solution {
+public:
+    int lengthOfLastWord(string s) {
+        int len=s.length();
+        string ans="";
+
+        for(int i=0;i<len;i++){
+           
+           if(s[i]!=' '){
+                ans="";
+                while(s[i]!=' ' && i!=len){
+                    ans+=s[i];
+                    i++;
+                }
+            }
+        }
+
+        return ans.length();
+    }
+};
