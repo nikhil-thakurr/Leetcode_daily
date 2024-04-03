@@ -1,0 +1,40 @@
+Q-Link : https://leetcode.com/problems/word-search/?envType=daily-question&envId=2024-04-03
+
+class Solution {
+public:
+int n;
+int m;
+vector<vector<int>> dir{{-1,0},{1,0},{0,-1},{0,1}};
+
+    bool helper(vector<vector<char>>& board, string &word,int idx,int r,int c){
+        if(idx==word.length())return true;
+        if(r<0 || r>=n || c<0 || c>=m ||board[r][c]=='$' ||board[r][c]!=word[idx])return false;
+        char ch=board[r][c];
+        board[r][c]='$';
+        
+            
+            for(auto& x:dir){
+                int nr=x[0]+r;
+                int nc=x[1]+c;
+
+                if(helper(board,word,idx+1,nr,nc))return true;
+            }
+        
+        board[r][c]=ch;
+        return false;
+    }
+
+    bool exist(vector<vector<char>>& board, string word) {
+        n=board.size();
+        m=board[0].size();
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(board[i][j]==word[0] && helper(board,word,0,i,j)){
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+};
