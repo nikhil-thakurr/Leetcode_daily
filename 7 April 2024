@@ -1,0 +1,69 @@
+Q-Link : https://leetcode.com/problems/valid-parenthesis-string/description/
+
+Approach 1 : DP
+
+
+class Solution {
+public:
+    bool helper(string &s,int idx,int open,int n, vector<vector<int>>&dp){
+        if(n==idx)return open==0;
+
+        bool isValid=false;
+
+        if(dp[idx][open]!=-1)return dp[idx][open];
+        if(s[idx]=='('){
+            isValid=helper(s,idx+1,open+1,n,dp);
+        }
+        else if(s[idx]=='*'){
+            isValid|=helper(s,idx+1,open,n,dp);
+            isValid|=helper(s,idx+1,open+1,n,dp);
+            if(open>0){
+                isValid|=helper(s,idx+1,open-1,n,dp);
+            }
+        }
+        else{
+            if(open>0){
+                isValid=helper(s,idx+1,open-1,n,dp);
+            }
+        }
+
+        return dp[idx][open]=isValid;
+
+    }
+
+    bool checkValidString(string s) {
+        int n=s.length();
+        vector<vector<int>>dp(n,vector<int>(n,-1));
+        return helper(s,0,0,n,dp);
+    }
+};
+
+
+Approach 2 : Two Pass
+
+class Solution {
+public:
+    bool checkValidString(string s) {
+        int open=0;
+
+        for(auto& x : s){
+            if(x=='*' || x=='(')open++;
+            else {
+                open--;
+                if(open<0)return false;
+            }
+        }
+        open=0;
+
+        for(int i=s.length()-1;i>=0;i--){
+            if(s[i]=='*' || s[i]==')')open++;
+            else{
+                open--;
+                if(open<0)return false;
+            }
+        }
+
+        return true;
+
+    }
+};
