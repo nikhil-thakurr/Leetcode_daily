@@ -1,0 +1,65 @@
+Q-Link : https://leetcode.com/problems/number-of-students-unable-to-eat-lunch/description/?envType=daily-question&envId=2024-04-08
+
+Approach 1: Stack + Queue
+
+class Solution {
+public:
+    int countStudents(vector<int>& students, vector<int>& sandwiches) {
+        queue<int>q;
+        stack<int>st;
+        for(auto& x:students)q.push(x);
+        for(int i=sandwiches.size()-1;i>=0;i--){
+            st.push(sandwiches[i]);
+        }
+
+        while(!q.empty()){
+            
+            if(st.top()==q.front()){
+                st.pop();
+                q.pop();
+            }
+            else{
+                int cnt=0;
+                while(st.top()!=q.front()){
+                   int val= q.front();
+                   q.pop();
+                   q.push(val);
+                   cout<<val<<"  ";
+                   cnt++;
+                   if(cnt==q.size())return cnt;
+                }
+                st.pop();
+                q.pop();
+            }
+
+        }
+
+        return 0;
+
+    }
+};
+
+Approach 2 : Normal
+
+class Solution {
+public:
+    int countStudents(vector<int>& students, vector<int>& sandwiches) {
+        int one=0,zero=0;
+
+        for(auto& x: students){
+            if(x==1)one++;
+            else zero++;
+
+        }
+
+        for(int i=0;i<sandwiches.size();i++){
+            if(sandwiches[i]==1 && one)one--;
+            else if(sandwiches[i]==0 && zero)zero--;
+            else{
+                return sandwiches.size()-i;
+            }
+        }
+
+        return 0;
+    }
+};
