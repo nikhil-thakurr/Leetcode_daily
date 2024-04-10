@@ -1,0 +1,62 @@
+Q-Link : https://leetcode.com/problems/reveal-cards-in-increasing-order/description/?envType=daily-question&envId=2024-04-10
+
+Approach 1 : Queue
+
+class Solution {
+public:
+    vector<int> deckRevealedIncreasing(vector<int>& deck) {
+        int n=deck.size();
+        vector<int>ans(n,0);
+        sort(deck.begin(),deck.end());
+        queue<int>q;
+        for(int i=0;i<n;i++)q.push(i);
+        int i=0;
+        while(i<n){
+            int idx=q.front();
+            q.pop();
+            ans[idx]=deck[i++];
+
+            int val=q.front();
+            q.pop();
+
+            q.push(val);
+        }
+        
+        return ans;
+    }
+};
+
+Approach 2 : Simulation
+
+class Solution {
+public:
+    vector<int> deckRevealedIncreasing(vector<int>& deck) {
+        int n=deck.size();
+        vector<int>ans(n,0);
+        sort(deck.begin(),deck.end());
+        int j=0;
+        bool skip=false;
+
+        for(int i=0;i<n;){
+            if(skip==false && ans[j]==0){
+                ans[j]=deck[i];
+                j=(j+1)%n;
+                i++;
+                skip=true;
+            }
+            else if(skip==false && ans[j]!=0){
+                j=(j+1)%n;
+            }
+            else if(skip==true && ans[j]!=0){
+                j=(j+1)%n;
+            }
+            else {
+                j=(j+1)%n;
+                skip=false;
+            }
+            
+        }
+
+        return ans;
+    }
+};
