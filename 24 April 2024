@@ -1,0 +1,33 @@
+Q-Link : https://leetcode.com/problems/n-th-tribonacci-number/?envType=daily-question&envId=2024-04-24
+
+class Solution {
+public:
+    int tribonacci(int n) {
+        vector<int>dp(n+1,0);
+        if(n==0)return 0;
+        if(n==1 || n==2)return 1;
+        dp[1]=dp[2]=1;
+
+        for(int i=3;i<=n;i++){
+            dp[i]= dp[i-1]+dp[i-2]+dp[i-3];
+        }
+        return dp[n];
+    }
+};
+
+class Solution {
+public:
+    int tribonacci(int n) {
+        int a=0,b=1,c=1;
+        if(n==0)return a;
+        if(n==1 || n==2)return b;
+        long long val=0;
+        for(int i=3;i<=n;i++){
+             val =a+b+c;
+            a=b;
+            b=c;
+            c=val;
+        }
+        return val;
+    }
+};
