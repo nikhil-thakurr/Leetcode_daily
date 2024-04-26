@@ -1,0 +1,43 @@
+Q-Link : https://leetcode.com/problems/minimum-falling-path-sum-ii/description/?envType=daily-question&envId=2024-04-26
+
+class Solution {
+public:
+
+    int n;
+    int m;
+
+    int helper(vector<vector<int>>& grid,int i,int j,  vector<vector<int>>&dp){
+       
+        if(i==0){
+            return grid[0][j];
+        }
+
+        if(dp[i][j]!=-1)return dp[i][j];
+
+        int mini=INT_MAX;
+        for(int k=0;k<m;k++){
+              
+                if(j!=k){
+                    mini=min(mini,helper(grid,i-1,k,dp));
+                }
+               
+            }
+
+         return dp[i][j]= grid[i][j] +  mini;
+
+    }
+
+    int minFallingPathSum(vector<vector<int>>& grid) {
+        int ans=INT_MAX;
+        n=grid.size();
+        m=grid[0].size();
+
+        vector<vector<int>>dp(n,vector<int>(m,-1));
+
+        for(int j=0;j<m;j++){
+            ans=min(ans,helper(grid,n-1,j,dp));
+        }
+
+        return ans;
+    }
+};
