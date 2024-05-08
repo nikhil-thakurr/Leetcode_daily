@@ -1,0 +1,36 @@
+Q-Link : https://leetcode.com/problems/relative-ranks/?envType=daily-question&envId=2024-05-08
+
+Approach : Using Heaps
+
+class Solution {
+public:
+    vector<string> findRelativeRanks(vector<int>& score) {
+        
+        priority_queue<pair<int,int>> pq;
+        for(int i = 0; i < score.size(); i++)
+        {
+            pq.push(make_pair(score[i], i));
+        }
+
+        int i=1;
+         vector<string>ans(score.size(),"");
+         cout<<"Hey";
+
+        while(!pq.empty()){
+            int sc=pq.top().first;
+            int idx=pq.top().second;
+
+            pq.pop();
+
+            if(i==1)ans[idx]="Gold Medal";
+            else if(i==2)ans[idx]="Silver Medal";
+            else if(i==3)ans[idx]="Bronze Medal";
+            else{
+                ans[idx]=to_string(i);
+            }
+            i++;
+        }
+
+        return ans;
+    }
+};
