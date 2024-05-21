@@ -1,0 +1,27 @@
+Q-Link : https://leetcode.com/problems/subsets/description/?envType=daily-question&envId=2024-05-21
+
+class Solution {
+public:
+
+    void helper(vector<int>& nums, vector<vector<int>>&ans,int idx ,vector<int>sub){
+        if(idx==nums.size()){
+            ans.push_back(sub);
+            return;
+        }
+
+        sub.push_back(nums[idx]);
+        helper(nums,ans,idx+1,sub);
+        sub.pop_back();
+        helper(nums,ans,idx+1,sub);
+
+        return ;
+    }
+
+    vector<vector<int>> subsets(vector<int>& nums) {
+         vector<vector<int>> ans;
+         vector<int>sub;
+         helper(nums,ans,0,sub);
+
+         return ans;
+    }
+};
