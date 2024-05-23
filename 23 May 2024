@@ -1,0 +1,37 @@
+Q-Link : https://leetcode.com/problems/the-number-of-beautiful-subsets/?envType=daily-question&envId=2024-05-23
+
+class Solution {
+public:
+int ans=0;
+bool check(vector<int>&vec,int num,int k){
+   
+    for(auto& x:vec){
+       
+        if(abs(x-num)==k )return false;
+    }
+    return true;
+
+ }
+
+    void helper(vector<int>& nums, int k,vector<int>&vec,int idx){
+        if(nums.size()<=idx ){ans++ ; return ;}
+
+        helper(nums,k,vec,idx+1);
+        
+        if(check(vec,nums[idx],k))
+        {
+            vec.push_back(nums[idx]);
+            helper(nums,k,vec,idx+1);
+            vec.pop_back();
+            
+        }  
+    }
+
+    int beautifulSubsets(vector<int>& nums, int k) {
+         vector<int>vec;
+         int idx=0;
+         helper(nums, k,vec,0);
+         return ans-1;
+            
+    }
+};
