@@ -1,0 +1,29 @@
+https://leetcode.com/problems/longest-palindrome/description/?envType=daily-question&envId=2024-06-04
+
+class Solution {
+public:
+    int longestPalindrome(string s) {
+        int n=s.length();
+        
+
+        unordered_map<char,int>mp;
+
+        for(auto&x:s)mp[x]++;
+
+        if(mp.size()==1)return mp[s[0]];
+
+        int ans=0;
+
+        bool odd=false;
+
+        for(auto& x:mp){
+            if(x.second%2==0)ans+=x.second;
+            else{
+                ans+=x.second-1;
+                odd=true;
+            }
+        }
+
+        return (odd)?ans+1:ans;
+    }
+};
