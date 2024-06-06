@@ -1,0 +1,41 @@
+Q-Link : https://leetcode.com/problems/hand-of-straights/?envType=daily-question&envId=2024-06-06
+
+class Solution {
+public:
+    bool isNStraightHand(vector<int>& hand, int groupSize) {
+       map<int,int>mp;
+       for(auto&x:hand)mp[x]++;
+
+       if(hand.size()%groupSize!=0)return false;
+
+       
+
+        for(auto x=mp.begin();x!=mp.end();x++){
+            int val=x->first;
+            int freq=x->second;
+            if(freq==0)continue;
+            int sz=groupSize;
+            cout<<val<<"  ";
+            while(sz-1>0){
+
+                if(mp.find(val+1)==mp.end())return false;
+                else{
+                    if(mp[val+1]<freq)return false;
+                    else{
+                        val++;
+                        mp[val]-=freq;
+                        if(mp[val]==0)mp.erase(val);
+                        // freq=mp[val];
+                    }
+                }
+                
+                sz--;
+            }
+
+
+        }
+
+        return true;
+
+    }
+};
